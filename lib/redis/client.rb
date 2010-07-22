@@ -284,10 +284,10 @@ class Redis
           SystemTimer.timeout_after(seconds, &block)
         end
       rescue LoadError
-        $stderr.puts "WARNING: Could not find a good alternative for performing time outs -- connecting to Redis will not time out. Try installing the SystemTimer gem."
+        $stderr.puts "WARNING: Could not find a good alternative for performing time outs -- connecting to Redis may not always time out. Try installing the SystemTimer gem."
 
-        def with_timeout(*args)
-          yield
+        def with_timeout(seconds, &block)
+          Timeout.timeout(seconds, &block)
         end
       end
     end
